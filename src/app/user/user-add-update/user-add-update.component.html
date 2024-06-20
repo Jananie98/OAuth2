@@ -1,0 +1,6 @@
+
+<!-- <button class="btn btn-info">Login with Google</button>
+<a href="@{/oauth2/authorization/google}" class="btn btn-info">Login With Google</a> -->
+
+<button (click)="login()" *ngIf="!isAuthenticated">Login with Google</button>
+<p *ngIf="isAuthenticated">You are logged in!</p>
