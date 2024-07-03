@@ -9,11 +9,14 @@ import { FormsModule } from '@angular/forms';
 import { BrowserAnimationsModule } from '@angular/platform-browser/animations';
 import { OAuthModule, OAuthService } from 'angular-oauth2-oidc';
 import { authConfig } from './config/auth-config';
+import { LoginComponent } from './login/login.component';
+import { FacebookLoginProvider, GoogleLoginProvider, SocialAuthServiceConfig, SocialLoginModule } from 'angularx-social-login';
 
 @NgModule({
   declarations: [
     AppComponent,
-    UserAddUpdateComponent
+    UserAddUpdateComponent,
+    LoginComponent
   ],
   imports: [
     BrowserModule,
@@ -21,11 +24,28 @@ import { authConfig } from './config/auth-config';
     BrowserAnimationsModule,
     HttpClientModule,
     FormsModule,
-    OAuthModule.forRoot()
+    OAuthModule.forRoot(),
+    SocialLoginModule
   ],
   providers: [
     provideClientHydration(),
-    OAuthService
+    OAuthService,
+    {
+      provide: 'SocialAuthServiceConfig',
+      useValue: {
+        autoLogin: false,
+        providers: [
+          {
+            id: GoogleLoginProvider.PROVIDER_ID,
+            provider: new GoogleLoginProvider('579827681179-5vgu73gmbov967d34aerv4e09lag595h.apps.googleusercontent.com')
+          },
+          {
+            id: FacebookLoginProvider.PROVIDER_ID,
+            provider: new FacebookLoginProvider('YOUR_FACEBOOK_APP_ID')
+          }
+        ]
+      } as SocialAuthServiceConfig,
+    }
   ],
   bootstrap: [AppComponent]
 })
